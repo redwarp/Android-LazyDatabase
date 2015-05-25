@@ -20,9 +20,6 @@ import net.redwarp.library.database.annotation.PrimaryKey;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-/**
- * User: ***REMOVED*** Date: 22/07/2014 Time: 14:45
- */
 public class TestLink {
 
   @PrimaryKey

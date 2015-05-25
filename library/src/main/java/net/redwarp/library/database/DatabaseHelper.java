@@ -17,6 +17,7 @@
 package net.redwarp.library.database;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class DatabaseHelper {
 
   private final Context mContext;
 
-  public DatabaseHelper(Context context) {
+  public DatabaseHelper(@NonNull Context context) {
     mContext = context;
     BaseAdapter.initSharedOpenHelper(context);
   }

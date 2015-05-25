@@ -26,9 +26,6 @@ import net.redwarp.library.database.test.Test;
 
 import java.util.List;
 
-/**
- * Created by Benoit Vermont on 16/03/15.
- */
 public class DatabaseTest extends AndroidTestCase {
 
   Context context;

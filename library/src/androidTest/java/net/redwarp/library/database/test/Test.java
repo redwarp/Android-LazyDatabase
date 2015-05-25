@@ -24,9 +24,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.Serializable;
 
-/**
- * User: ***REMOVED*** Date: 11/07/2014 Time: 14:50
- */
 @Version(2L)
 public class Test implements Serializable {
 
