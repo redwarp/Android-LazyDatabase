@@ -26,7 +26,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "0.1.0"
+        versionName '0.1.0'
     }
     buildTypes {
         release {
@@ -51,7 +51,9 @@ dependencies {
 
 def siteUrl = 'https://github.com/redwarp/Android-LazyDatabase'      // Homepage URL of the library
 def gitUrl = 'https://github.com/redwarp/Android-LazyDatabase.git'   // Git repository URL
-def groupId = "net.redwarp.android.library"                          // Maven Group ID for the artifact
+def groupId = 'net.redwarp.android.library'
+
+group = groupId
 version = android.defaultConfig.versionName
 
 install {
@@ -123,10 +125,12 @@ bintray {
 
     configurations = ['archives']
     pkg {
-        repo = "maven"
-        name = "Android-LazyDatabase"
+        repo = 'android'
+        name = 'lazy-database'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
+        labels = ['aar', 'android', 'database']
+        publicDownloadNumbers = true
     }
 }
