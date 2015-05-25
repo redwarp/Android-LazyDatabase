@@ -63,12 +63,14 @@ install {
             packaging 'aar'
 
             // Add your description here
+            //noinspection GroovyAssignabilityCheck
             name "A database helper for proof of concepts Android apps"
             url siteUrl
 
             // Set your license
             licenses {
                 license {
+                    //noinspection GroovyAssignabilityCheck
                     name 'The Apache Software License, Version 2.0'
                     url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                 }
@@ -76,6 +78,7 @@ install {
             developers {
                 developer {
                     id 'redwarp'
+                    //noinspection GroovyAssignabilityCheck
                     name 'Benoit Vermont'
                     email 'redwarp@gmail.com'
                 }
@@ -121,7 +124,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "<Your library name>"
+        name = "Android-LazyDatabase"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
