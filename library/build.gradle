@@ -26,7 +26,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "0.1"
+        versionName "0.1.0"
     }
     buildTypes {
         release {
@@ -128,6 +128,5 @@ bintray {
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
-        publish = true
     }
 }
