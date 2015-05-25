@@ -51,43 +51,43 @@ dependencies {
 
 def siteUrl = 'https://github.com/redwarp/Android-LazyDatabase'      // Homepage URL of the library
 def gitUrl = 'https://github.com/redwarp/Android-LazyDatabase.git'   // Git repository URL
-group = "net.redwarp.library"                                        // Maven Group ID for the artifact
+def groupId = "net.redwarp.android.library"                          // Maven Group ID for the artifact
 version = android.defaultConfig.versionName
 
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
+        pom.groupId = groupId
+        pom.artifactId = "lazy-database"
+        pom.project {
+            packaging 'aar'
 
-                // Add your description here
-                artifactId "lazy-database"
-                name "A database helper for proof of concepts Android apps"
-                url siteUrl
+            // Add your description here
+            name "A database helper for proof of concepts Android apps"
+            url siteUrl
 
-                // Set your license
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'redwarp'
-                        name 'Benoit Vermont'
-                        email 'redwarp@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
+            // Set your license
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                 }
             }
+            developers {
+                developer {
+                    id 'redwarp'
+                    name 'Benoit Vermont'
+                    email 'redwarp@gmail.com'
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+
+            }
         }
+
     }
 }
 
@@ -109,4 +109,22 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives javadocJar
     archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "<Your library name>"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
 }
