@@ -25,9 +25,6 @@ import net.redwarp.library.database.TableInfo;
 
 import java.util.List;
 
-/**
- * Created by Benoit Vermont on 16/03/15.
- */
 public class DoTest extends Activity {
 
   @Override

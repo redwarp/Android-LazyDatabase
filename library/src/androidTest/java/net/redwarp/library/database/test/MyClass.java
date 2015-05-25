@@ -22,9 +22,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Random;
 
-/**
- * User: ***REMOVED*** Date: 16/07/2014 Time: 17:24
- */
 public class MyClass {
 
   @PrimaryKey(name = "superKey")
