@@ -44,7 +44,7 @@ public class GoodOldPojo {
 }
 ```
 
-First, modify it by setting a primary key, like that:
+First, modify it by setting a primary key, like that, and add an empty constructor:
 
 ```java
 import net.redwarp.library.database.annotation.PrimaryKey;
@@ -55,6 +55,8 @@ public class GoodOldPojo {
   public String name;
   private int randomNumber;
   private float someValue;
+
+  public GoodOldPojo(){}
 
   (...)
 }
