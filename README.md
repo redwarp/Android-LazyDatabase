@@ -5,6 +5,26 @@ A fast way to store POJO in sqlite on an Android device without troubling yourse
 If you are working on a proof of concept app for Android (you should probably not use it for production in it's current state), and you need to store some good old POJO, this library is there for you.
 As the title says, it's a database for lazy people.
 
+## Usage
+
+### for Maven
+
+```
+<dependency>
+    <groupId>net.redwarp.android.library</groupId>
+    <artifactId>lazy-database</artifactId>
+    <version>{latest-version}</version>
+    <type>aar</type>
+</dependency>
+```
+
+
+### for Gradle
+
+```
+compile 'net.redwarp.android.library:lazy-database:0.1.1'
+```
+
 ## How to?
 Let's say you have a good old POJO class, like this:
 

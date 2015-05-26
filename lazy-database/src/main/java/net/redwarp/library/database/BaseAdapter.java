@@ -21,6 +21,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -42,7 +43,7 @@ public class BaseAdapter<T> {
   private final TableInfo<T> mTableInfo;
   private final Context mContext;
 
-  public BaseAdapter(Context context, TableInfo<T> tableInfo) {
+  public BaseAdapter(@NonNull Context context, TableInfo<T> tableInfo) {
     mTableInfo = tableInfo;
     mContext = context;
 
