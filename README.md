@@ -22,7 +22,7 @@ As the title says, it's a database for lazy people.
 ### for Gradle
 
 ```
-compile 'net.redwarp.android.library:lazy-database:0.1.0'
+compile 'net.redwarp.android.library:lazy-database:0.1.1'
 ```
 
 ## How to?
