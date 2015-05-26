@@ -1,1 +1,1 @@
-include ':lazy-database'
+include ':lazy-database', ':test-application'
