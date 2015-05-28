@@ -22,6 +22,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.redwarp.library.testapplication.tools.NameGenerator;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     ButterKnife.inject(this);
 
-
+    NameGenerator generator = new NameGenerator();
   }
 
   @Override
