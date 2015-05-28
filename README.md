@@ -7,7 +7,7 @@ As the title says, it's a database for lazy people.
 
 ## Usage
 
-### for Maven
+### For Maven
 
 ```
 <dependency>
@@ -19,7 +19,7 @@ As the title says, it's a database for lazy people.
 ```
 
 
-### for Gradle
+### For Gradle
 
 ```
 compile 'net.redwarp.android.library:lazy-database:0.1.1'
@@ -100,3 +100,7 @@ List<GoodOldPojo> allPojos = helper.getAll(GoodOldPojo.class);
 ```java
 GoodOldPojo retrievedPojo = helper.getWithId(GoodOldPojo.class, 2);
 ```
+## What's left to do?
+
+ * [ ] A shit load
+ * [ ] Relations of type one to many
