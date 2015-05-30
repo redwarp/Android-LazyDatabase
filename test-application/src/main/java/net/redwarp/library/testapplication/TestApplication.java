@@ -16,20 +16,25 @@
 
 package net.redwarp.library.testapplication;
 
+import android.app.Application;
+
+import net.redwarp.library.database.DatabaseHelper;
+
 /**
- * Created by Redwarp on 27/05/2015.
+ * Created by Redwarp on 30/05/2015.
  */
-public class RandomStuff {
+public class TestApplication extends Application {
 
-  public String name;
+  private static DatabaseHelper databaseHelper = null;
 
-  /**
-   * Required empty constructor
-   */
-  public RandomStuff() {
+  @Override
+  public void onCreate() {
+    super.onCreate();
+
+    databaseHelper = new DatabaseHelper(this);
   }
 
-  public RandomStuff(String name){
-    this.name = name;
+  public static DatabaseHelper getDatabaseHelper() {
+    return databaseHelper;
   }
 }

@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -34,11 +35,31 @@ import butterknife.InjectView;
 public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.ViewHolder> {
 
   private final Context mContext;
-  private final List<RandomStuff> mStuffList;
+  private List<RandomStuff> mStuffList;
 
-  public RandomStuffAdapter(Context context, List<RandomStuff> stuffList){
+  public RandomStuffAdapter(Context context, List<RandomStuff> stuffList) {
     mContext = context;
-    mStuffList = stuffList;
+
+    if (stuffList != null) {
+      mStuffList = stuffList;
+    } else {
+      mStuffList = new ArrayList<>();
+    }
+  }
+
+  public void addStuff(RandomStuff stuff) {
+    if (stuff != null) {
+      mStuffList.add(stuff);
+      notifyItemInserted(mStuffList.size() - 1);
+    }
+  }
+
+  public void addAllStuff(List<RandomStuff> stuffList) {
+    if (stuffList != null) {
+      int startingPoint = mStuffList.size();
+      mStuffList.addAll(stuffList);
+      notifyItemRangeInserted(startingPoint, stuffList.size());
+    }
   }
 
   @Override
@@ -59,6 +80,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
+
     @InjectView(R.id.text)
     TextView textView;
 

@@ -16,13 +16,17 @@
 
 package net.redwarp.library.testapplication;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import net.redwarp.library.testapplication.tools.NameGenerator;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
   @InjectView(R.id.recycler_view)
   RecyclerView mRecyclerView;
+  private NameGenerator mGenerator;
+  private RandomStuffAdapter mAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,27 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     ButterKnife.inject(this);
 
-    NameGenerator generator = new NameGenerator();
+    mGenerator = new NameGenerator();
+
+    mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    mRecyclerView.setHasFixedSize(true);
+    mAdapter = new RandomStuffAdapter(this, null);
+    mRecyclerView.setAdapter(mAdapter);
+
+    AsyncTask<Void, Void, List<RandomStuff>>
+        fetchAllStuff =
+        new AsyncTask<Void, Void, List<RandomStuff>>() {
+          @Override
+          protected List<RandomStuff> doInBackground(Void... voids) {
+            return TestApplication.getDatabaseHelper().getAll(RandomStuff.class);
+          }
+
+          @Override
+          protected void onPostExecute(List<RandomStuff> stuffList) {
+            mAdapter.addAllStuff(stuffList);
+          }
+        };
+    fetchAllStuff.execute();
   }
 
   @Override
@@ -57,10 +83,32 @@ public class MainActivity extends AppCompatActivity {
     int id = item.getItemId();
 
     //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
+    if (id == R.id.action_add) {
+      this.addRandomStuff();
       return true;
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  private void addRandomStuff() {
+    AsyncTask<Void, Void, Boolean> addStuff = new AsyncTask<Void, Void, Boolean>() {
+      RandomStuff savedStuff;
+
+      @Override
+      protected Boolean doInBackground(Void... voids) {
+        RandomStuff stuff = new RandomStuff(mGenerator.next());
+        savedStuff = stuff;
+        return TestApplication.getDatabaseHelper().save(stuff);
+      }
+
+      @Override
+      protected void onPostExecute(Boolean success) {
+        if (success) {
+          mAdapter.addStuff(savedStuff);
+        }
+      }
+    };
+    addStuff.execute();
   }
 }
