@@ -16,6 +16,7 @@
 
 package net.redwarp.library.testapplication.tools;
 
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -61,7 +62,7 @@ public class NameGenerator {
         }
       }
     }
-    builder.replace(0, 1, builder.substring(0, 1).toUpperCase());
+    builder.replace(0, 1, builder.substring(0, 1).toUpperCase(Locale.getDefault()));
 
     return builder.toString();
   }

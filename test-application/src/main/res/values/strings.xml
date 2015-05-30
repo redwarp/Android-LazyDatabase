@@ -16,8 +16,6 @@
 
 <resources>
     <string name="app_name">Test Application</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_add">Add</string>
     <string name="action_clear">Clear</string>
     <string name="loading">Loading…</string>
