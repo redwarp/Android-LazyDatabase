@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
       @Override
       protected Boolean doInBackground(Void... voids) {
-        RandomStuff stuff = new RandomStuff(mGenerator.next());
+        RandomStuff stuff = new RandomStuff(mGenerator.next() + " " + mGenerator.next());
         savedStuff = stuff;
         return TestApplication.getDatabaseHelper().save(stuff);
       }
