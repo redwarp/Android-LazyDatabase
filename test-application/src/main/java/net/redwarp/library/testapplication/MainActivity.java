@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     mRecyclerView.setAdapter(mAdapter);
 
     AsyncTask<Void, Void, List<RandomStuff>>
-        fetchAllStuff =
+        fetchAllStuffTask =
         new AsyncTask<Void, Void, List<RandomStuff>>() {
           @Override
           protected List<RandomStuff> doInBackground(Void... voids) {
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.addAllStuff(stuffList);
           }
         };
-    fetchAllStuff.execute();
+    fetchAllStuffTask.execute();
   }
 
   @Override
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
    * Add a single item to the database and display it
    */
   private void addRandomStuff() {
-    AsyncTask<Void, Void, Boolean> addStuff = new AsyncTask<Void, Void, Boolean>() {
+    AsyncTask<Void, Void, Boolean> addStuffTask = new AsyncTask<Void, Void, Boolean>() {
       RandomStuff savedStuff;
 
       @Override
@@ -135,6 +135,6 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     };
-    addStuff.execute();
+    addStuffTask.execute();
   }
 }
