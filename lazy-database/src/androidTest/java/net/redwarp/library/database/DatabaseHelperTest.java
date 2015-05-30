@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class DatabaseTest extends AndroidTestCase {
+public class DatabaseHelperTest extends AndroidTestCase {
 
   Context context;
   DatabaseHelper helper;
@@ -109,4 +109,5 @@ public class DatabaseTest extends AndroidTestCase {
     Assert.assertEquals("Number of entries", capacity, entries.size());
     helper.clear(Test.class);
   }
+
 }

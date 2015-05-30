@@ -17,11 +17,13 @@
 package net.redwarp.library.database.test;
 
 import net.redwarp.library.database.annotation.PrimaryKey;
+import net.redwarp.library.database.annotation.Version;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Random;
 
+@Version(4)
 public class MyClass {
 
   @PrimaryKey(name = "superKey")

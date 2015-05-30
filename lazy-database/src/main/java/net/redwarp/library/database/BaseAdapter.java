@@ -21,6 +21,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -40,6 +41,7 @@ import java.util.Map;
 public class BaseAdapter<T> {
 
   private static SharedOpenHelper openHelper = null;
+
   private final TableInfo<T> mTableInfo;
   private final Context mContext;
 
@@ -81,6 +83,14 @@ public class BaseAdapter<T> {
     }
     if (!tableExist) {
       db.execSQL(mTableInfo.getCreateRequest());
+
+      SQLiteStatement
+          statement =
+          db.compileStatement("INSERT OR REPLACE INTO versions (class_name, version) VALUES (?,?)");
+      statement.bindString(1, mTableInfo.getName());
+      statement.bindLong(2, mTableInfo.getVersion());
+      statement.execute();
+      statement.clearBindings();
     }
   }
 
@@ -317,7 +327,7 @@ public class BaseAdapter<T> {
 
     private static String
         CREATE_VERSION =
-        "CREATE TABLE versions (class_name TEXT PRIMARY KEY NOT NULL, version INTEGER);";
+        "CREATE TABLE IF NOT EXISTS versions (class_name TEXT PRIMARY KEY NOT NULL, version INTEGER);";
 
     public SharedOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,
                             int version) {
@@ -380,5 +390,7 @@ public class BaseAdapter<T> {
     return returnAdapter;
   }
 
-
+  public TableInfo<T> getTableInfo() {
+    return mTableInfo;
+  }
 }
