@@ -86,11 +86,37 @@ public class MainActivity extends AppCompatActivity {
     if (id == R.id.action_add) {
       this.addRandomStuff();
       return true;
+    } else if (id == R.id.action_clear) {
+      this.clearRandomStuff();
+      return true;
     }
 
     return super.onOptionsItemSelected(item);
   }
 
+  /**
+   * Clear the list of item from database and display
+   */
+  private void clearRandomStuff() {
+    AsyncTask<Void, Void, Integer> clearStuffTask = new AsyncTask<Void, Void, Integer>() {
+      @Override
+      protected Integer doInBackground(Void... voids) {
+        return TestApplication.getDatabaseHelper().clear(RandomStuff.class);
+      }
+
+      @Override
+      protected void onPostExecute(Integer affectedRows) {
+        if (affectedRows > 0) {
+          mAdapter.clearStuff();
+        }
+      }
+    };
+    clearStuffTask.execute();
+  }
+
+  /**
+   * Add a single item to the database and display it
+   */
   private void addRandomStuff() {
     AsyncTask<Void, Void, Boolean> addStuff = new AsyncTask<Void, Void, Boolean>() {
       RandomStuff savedStuff;

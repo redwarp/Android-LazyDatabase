@@ -62,6 +62,12 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
     }
   }
 
+  public void clearStuff() {
+    int numberOfItems = mStuffList.size();
+    mStuffList.clear();
+    notifyItemRangeRemoved(0, numberOfItems);
+  }
+
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(mContext).inflate(R.layout.cell_random_stuff, parent, false);
@@ -78,6 +84,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
   public int getItemCount() {
     return mStuffList.size();
   }
+
 
   public class ViewHolder extends RecyclerView.ViewHolder {
 
