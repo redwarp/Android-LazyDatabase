@@ -19,5 +19,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_add">Add</string>
-  <string name="action_clear">Clear</string>
+    <string name="action_clear">Clear</string>
+    <string name="loading">Loading…</string>
+    <plurals name="item_count">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
 </resources>

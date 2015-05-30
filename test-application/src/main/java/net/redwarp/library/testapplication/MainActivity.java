@@ -32,7 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+    implements RandomStuffAdapter.ItemCountChangedListener {
 
   @InjectView(R.id.recycler_view)
   RecyclerView mRecyclerView;
@@ -50,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     mRecyclerView.setHasFixedSize(true);
     mAdapter = new RandomStuffAdapter(this, null);
+    mAdapter.setOnItemCountChangeListener(this);
     mRecyclerView.setAdapter(mAdapter);
 
+    setTitle(R.string.loading);
     AsyncTask<Void, Void, List<RandomStuff>>
         fetchAllStuffTask =
         new AsyncTask<Void, Void, List<RandomStuff>>() {
@@ -136,5 +139,10 @@ public class MainActivity extends AppCompatActivity {
       }
     };
     addStuffTask.execute();
+  }
+
+  @Override
+  public void onItemCountChange(int newCount) {
+    setTitle(getResources().getQuantityString(R.plurals.item_count, newCount, newCount));
   }
 }

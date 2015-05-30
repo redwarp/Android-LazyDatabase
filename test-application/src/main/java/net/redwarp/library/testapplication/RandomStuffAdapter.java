@@ -36,6 +36,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
 
   private final Context mContext;
   private List<RandomStuff> mStuffList;
+  private ItemCountChangedListener mCountListener = null;
 
   public RandomStuffAdapter(Context context, List<RandomStuff> stuffList) {
     mContext = context;
@@ -51,6 +52,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
     if (stuff != null) {
       mStuffList.add(stuff);
       notifyItemInserted(mStuffList.size() - 1);
+      postCount();
     }
   }
 
@@ -59,6 +61,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
       int startingPoint = mStuffList.size();
       mStuffList.addAll(stuffList);
       notifyItemRangeInserted(startingPoint, stuffList.size());
+      postCount();
     }
   }
 
@@ -66,6 +69,17 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
     int numberOfItems = mStuffList.size();
     mStuffList.clear();
     notifyItemRangeRemoved(0, numberOfItems);
+    postCount();
+  }
+
+  private void postCount() {
+    if (mCountListener != null) {
+      mCountListener.onItemCountChange(mStuffList.size());
+    }
+  }
+
+  public void setOnItemCountChangeListener(ItemCountChangedListener listener) {
+    mCountListener = listener;
   }
 
   @Override
@@ -95,5 +109,10 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
       super(itemView);
       ButterKnife.inject(this, itemView);
     }
+  }
+
+  public static interface ItemCountChangedListener {
+
+    public void onItemCountChange(int newCount);
   }
 }
