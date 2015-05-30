@@ -87,6 +87,7 @@ helper.save(pojo1);
 helper.save(pojo2);
 helper.save(pojo3);
 helper.save(pojo4);
+helper.setTransactionSuccessful();
 helper.endTransaction();
 ```
 

@@ -24,7 +24,9 @@ import junit.framework.Assert;
 
 import net.redwarp.library.database.test.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DatabaseTest extends AndroidTestCase {
 
@@ -56,7 +58,7 @@ public class DatabaseTest extends AndroidTestCase {
   public void testEntryCount() {
     Test test1 = new Test();
     Test test2 = new Test();
-
+    helper.clear(Test.class);
     helper.beginTransaction();
 
     helper.save(test1);
@@ -83,8 +85,28 @@ public class DatabaseTest extends AndroidTestCase {
   }
 
   public void testClear() {
+    helper.save(new Test());
     helper.clear(Test.class);
     List<Test> allTests = helper.getAll(Test.class);
     Assert.assertEquals("Number of entries", 0, allTests.size());
+  }
+
+  public void testTransaction() {
+    helper.clear(Test.class);
+    Random random = new Random();
+    int capacity = 10000;
+    helper.beginTransaction();
+    for (int i = 0; i < capacity; i++) {
+      Test test = new Test();
+      test.randomReal = random.nextDouble();
+      test.length = random.nextInt();
+      helper.save(test);
+    }
+    helper.setTransactionSuccessful();
+    helper.endTransaction();
+
+    List<Test> entries = helper.getAll(Test.class);
+    Assert.assertEquals("Number of entries", capacity, entries.size());
+    helper.clear(Test.class);
   }
 }
