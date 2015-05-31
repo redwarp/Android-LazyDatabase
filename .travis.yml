@@ -9,4 +9,4 @@ android:
   - extra-google-google_play_services
 before_install:
   - chmod +x gradlew
-script: "./gradlew connectedCheck"
+script: "./gradlew :lazy-database:test"
