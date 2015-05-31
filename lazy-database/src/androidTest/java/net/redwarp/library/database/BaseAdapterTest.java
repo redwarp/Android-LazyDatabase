@@ -22,6 +22,7 @@ import android.test.RenamingDelegatingContext;
 
 import junit.framework.Assert;
 
+import net.redwarp.library.database.test.Link;
 import net.redwarp.library.database.test.MyClass;
 
 /**
@@ -31,11 +32,13 @@ public class BaseAdapterTest extends AndroidTestCase {
 
   Context context;
   BaseAdapter<MyClass> adapter;
+  BaseAdapter<Link> linkAdapter;
 
   @Override
   protected void setUp() throws Exception {
     context = new RenamingDelegatingContext(getContext(), "test_");
     adapter = BaseAdapter.adapterForClass(mContext, MyClass.class);
+    linkAdapter = BaseAdapter.adapterForClass(mContext, Link.class);
   }
 
   @Override
@@ -50,5 +53,28 @@ public class BaseAdapterTest extends AndroidTestCase {
     long annotatedVersion = adapter.getTableInfo().getVersion();
 
     Assert.assertEquals("Versions", storeVersion, annotatedVersion);
+  }
+
+  public void testChainCreate() {
+    linkAdapter.clear();
+    Link firstLink = new Link("First");
+    Link secondLink = new Link("Second");
+    firstLink.nextLink = secondLink;
+
+    linkAdapter.save(firstLink);
+
+    Assert.assertTrue("Second link key should be set", secondLink.key > 0);
+  }
+
+  public void testChainDelete() {
+    linkAdapter.clear();
+    Link firstLink = new Link("First");
+    Link secondLink = new Link("Second");
+    firstLink.nextLink = secondLink;
+
+    linkAdapter.save(firstLink);
+    linkAdapter.delete(firstLink);
+
+    Assert.assertTrue("Second link should be deleted", secondLink.key == -1);
   }
 }
