@@ -129,3 +129,6 @@ public class GoodOldPojo {
  * [ ] A shit load
  * [ ] Clear should also deleted chain elements
  * [ ] Relations of type one to many
+ * [ ] Benchmarking (I mean, how fast is it compared to an hand written database)
+ * [ ] Search
+ * [ ] Unique keyword, etc...
