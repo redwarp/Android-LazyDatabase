@@ -42,6 +42,7 @@ public class TableInfo<T> {
   public Column primaryKey = null;
   private String[] mColumnNames;
   private Field[] mFields;
+  private Field[] mChainDeleteFields;
   private long mVersion;
 
   @SuppressWarnings("unchecked")
@@ -62,6 +63,7 @@ public class TableInfo<T> {
 
     List<String> columnNames = new ArrayList<>(fields.length);
     List<Field> finalFields = new ArrayList<>(fields.length);
+    List<Field> chainDeleteFields = new ArrayList<>(fields.length);
 
     for (Field field : fields) {
       if (!Modifier.isStatic(field.getModifiers())) {
@@ -90,6 +92,10 @@ public class TableInfo<T> {
           // Not a basic field;
           if (field.isAnnotationPresent(Chain.class)) {
             // We must serialize/unserialize this as well
+            final Chain chainAnnotation = field.getAnnotation(Chain.class);
+            if (chainAnnotation.delete()) {
+              chainDeleteFields.add(field);
+            }
             final String name = getColumnName(field);
             columnNames.add(name);
             Column column = new Column(name, field, SQLiteUtils.SQLiteType.INTEGER);
@@ -102,6 +108,7 @@ public class TableInfo<T> {
     }
     mColumnNames = columnNames.toArray(new String[columnNames.size()]);
     mFields = finalFields.toArray(new Field[finalFields.size()]);
+    mChainDeleteFields = chainDeleteFields.toArray(new Field[chainDeleteFields.size()]);
   }
 
   public String getName() {
@@ -178,6 +185,10 @@ public class TableInfo<T> {
 
   public Column getColumn(Field field) {
     return mColumns.get(field);
+  }
+
+  public Field[] getChainDeleteFields() {
+    return mChainDeleteFields;
   }
 
   public Class<T> getInfoClass() {

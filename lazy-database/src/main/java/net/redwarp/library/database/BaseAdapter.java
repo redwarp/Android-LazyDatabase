@@ -195,10 +195,22 @@ public class BaseAdapter<T> {
     if (mTableInfo.hasPrimaryKey()) {
       try {
         long id = mTableInfo.primaryKey.field.getLong(object);
+        boolean success = true;
         if (db.delete(mTableInfo.getName(), mTableInfo.primaryKey.name + " = ?",
                       new String[]{String.valueOf(id)}) > 0) {
           mTableInfo.primaryKey.field.setLong(object, -1);
-          return true;
+
+          for (Field field : mTableInfo.getChainDeleteFields()) {
+            Class childClass = field.getType();
+            BaseAdapter childAdapter = adapterForClass(mContext, field.getType());
+            Object child = field.get(object);
+
+            if (child != null) {
+              success &= childAdapter.delete(child);
+            }
+          }
+
+          return success;
         }
       } catch (IllegalAccessException e) {
         Log.e("BaseAdapter", "Couldn't get primary key for object " + object, e);
