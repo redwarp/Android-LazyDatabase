@@ -7,22 +7,22 @@ As the title says, it's a database for lazy people.
 
 ## Usage
 
-### for Maven
+### For Maven
 
 ```
 <dependency>
     <groupId>net.redwarp.android.library</groupId>
     <artifactId>lazy-database</artifactId>
-    <version>{latest-version}</version>
+    <version>0.1.2</version>
     <type>aar</type>
 </dependency>
 ```
 
 
-### for Gradle
+### For Gradle
 
 ```
-compile 'net.redwarp.android.library:lazy-database:0.1.1'
+compile 'net.redwarp.android.library:lazy-database:0.1.2'
 ```
 
 ## How to?
@@ -44,7 +44,7 @@ public class GoodOldPojo {
 }
 ```
 
-First, modify it by setting a primary key, like that:
+First, modify it by setting a **primary key**, like that, and add an **empty constructor**:
 
 ```java
 import net.redwarp.library.database.annotation.PrimaryKey;
@@ -55,6 +55,8 @@ public class GoodOldPojo {
   public String name;
   private int randomNumber;
   private float someValue;
+
+  public GoodOldPojo(){}
 
   (...)
 }
@@ -85,6 +87,7 @@ helper.save(pojo1);
 helper.save(pojo2);
 helper.save(pojo3);
 helper.save(pojo4);
+helper.setTransactionSuccessful();
 helper.endTransaction();
 ```
 
@@ -98,3 +101,31 @@ List<GoodOldPojo> allPojos = helper.getAll(GoodOldPojo.class);
 ```java
 GoodOldPojo retrievedPojo = helper.getWithId(GoodOldPojo.class, 2);
 ```
+
+### Chaining stuff
+Let's say you have one POJO containing another POJO, like that:
+```java
+public class GoodOldPojo {
+  private OtherPojo object;
+}
+```
+By default, it won't be saved. If you want it to be saved, you have to add the annotation `@Chain` to the field, like that:
+```java
+public class GoodOldPojo {
+  @Chain private OtherPojo otherPojo;
+}
+```
+And voila, the otherPojo will be saved as well. By default, deleting the first one will also delete the second one. If you don't want the first
+item deletion to cascade on the second one, modify your class this way:
+
+```java
+public class GoodOldPojo {
+  @Chain(delete = false) private OtherPojo otherPojo;
+}
+```
+
+## What's left to do?
+
+ * [ ] A shit load
+ * [ ] Clear should also deleted chain elements
+ * [ ] Relations of type one to many

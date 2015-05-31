@@ -14,21 +14,26 @@
  * Copyright 2015 Redwarp
  */
 
-package net.redwarp.library.database.annotation;
+package net.redwarp.library.database.test;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import net.redwarp.library.database.annotation.Chain;
+import net.redwarp.library.database.annotation.PrimaryKey;
+import net.redwarp.library.database.annotation.Version;
 
 /**
- * Indicate the version of the class. If you modify the class by adding or changing or renaming a
- * field, you should them increment the version. Currently, this isn't used. But it should be
- * usefull for schema update later.
+ * Created by Redwarp on 31/05/2015.
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Version {
+@Version(1)
+public class Link {
 
-  public long value();
+  @PrimaryKey public long key;
+  @Chain public Link nextLink;
+  public String name;
+
+  public Link() {
+  }
+
+  public Link(String name) {
+    this.name = name;
+  }
 }

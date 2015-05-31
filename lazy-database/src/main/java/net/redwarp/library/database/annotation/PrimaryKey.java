@@ -29,5 +29,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PrimaryKey {
 
+  /**
+   * The name of the key in the database, if you want to override default name.
+   */
   public String name() default "";
 }
