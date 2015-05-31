@@ -18,10 +18,12 @@ package net.redwarp.library.database.test;
 
 import net.redwarp.library.database.annotation.Chain;
 import net.redwarp.library.database.annotation.PrimaryKey;
+import net.redwarp.library.database.annotation.Version;
 
 /**
  * Created by Redwarp on 31/05/2015.
  */
+@Version(1)
 public class Link {
 
   @PrimaryKey public long key;
