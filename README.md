@@ -8,7 +8,7 @@ If you are working on a proof of concept app for Android (you should probably no
 As the title says, it's a database for lazy people.
 
 ## Warning
-Seriously, **don't use it for production**, only for proof of concept or stuff like that. I mean, really, I might break everything with the next release. It's far from "future proof yet".
+Seriously, **don't use it for production**, only for proof of concept or stuff like that. I mean, really, I might break everything with the next release. It's far from being *future proof* yet.
 
 ## Usage
 
