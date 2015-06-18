@@ -7,7 +7,7 @@ A fast way to store POJO in sqlite on an Android device without troubling yourse
 If you are working on a proof of concept app for Android (you should probably not use it for production in it's current state), and you need to store some good old POJO, this library is there for you.
 As the title says, it's a database for lazy people.
 
-## Warning
+## ![Warning](readme-assets/warning.png) Warning
 Seriously, **don't use it for production**, only for proof of concept or stuff like that. I mean, really, I might break everything with the next release. It's far from being *future proof* yet.
 
 ## Usage
