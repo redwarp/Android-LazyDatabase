@@ -24,7 +24,6 @@ import junit.framework.Assert;
 
 import net.redwarp.library.database.test.Link;
 import net.redwarp.library.database.test.MyClass;
-import net.redwarp.library.database.test.Test;
 
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class BaseAdapterTest extends AndroidTestCase {
   }
 
 
-  public void testDeleteLastItemClearsBase(){
+  public void testDeleteLastItemClearsBase() {
     adapter.clear();
     MyClass test = new MyClass();
     adapter.save(test);
@@ -92,5 +91,20 @@ public class BaseAdapterTest extends AndroidTestCase {
 
     List<MyClass> allTests = adapter.getAll();
     Assert.assertEquals("Should have zero items", 0, allTests.size());
+  }
+
+  public void testCount() {
+    adapter.clear();
+
+    final long count = 10;
+    BaseAdapter.getOpenHelper().getWritableDatabase().beginTransaction();
+    for (int index = 0; index < count; index++) {
+      MyClass test = new MyClass();
+      adapter.save(test);
+    }
+    BaseAdapter.getOpenHelper().getWritableDatabase().setTransactionSuccessful();
+    BaseAdapter.getOpenHelper().getWritableDatabase().endTransaction();
+
+    Assert.assertEquals("Count should be same", count, adapter.getCount());
   }
 }
