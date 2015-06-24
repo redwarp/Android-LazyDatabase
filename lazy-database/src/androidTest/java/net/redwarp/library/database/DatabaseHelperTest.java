@@ -22,6 +22,7 @@ import android.test.RenamingDelegatingContext;
 
 import junit.framework.Assert;
 
+import net.redwarp.library.database.test.MyClass;
 import net.redwarp.library.database.test.Test;
 
 import java.util.ArrayList;
@@ -110,4 +111,19 @@ public class DatabaseHelperTest extends AndroidTestCase {
     helper.clear(Test.class);
   }
 
+
+  public void testCount() {
+    helper.clear(MyClass.class);
+
+    final long count = 10;
+    BaseAdapter.getOpenHelper().getWritableDatabase().beginTransaction();
+    for (int index = 0; index < count; index++) {
+      MyClass test = new MyClass();
+      helper.save(test);
+    }
+    BaseAdapter.getOpenHelper().getWritableDatabase().setTransactionSuccessful();
+    BaseAdapter.getOpenHelper().getWritableDatabase().endTransaction();
+
+    Assert.assertEquals("Item count", count, helper.getCount(MyClass.class));
+  }
 }

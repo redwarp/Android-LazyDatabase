@@ -20,13 +20,13 @@ apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 3
-        versionName '0.1.2'
+        versionCode 4
+        versionName '0.2.0'
     }
     buildTypes {
         release {
@@ -44,7 +44,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-annotations:22.0.0'
+    compile 'com.android.support:support-annotations:22.2.0'
     compile 'org.apache.commons:commons-lang3:3.4'
 
 }
@@ -116,8 +116,11 @@ artifacts {
     archives sourcesJar
 }
 
+def propertiesFile = project.rootProject.file('local.properties');
 Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+if(propertiesFile.canRead()) {
+    properties.load(propertiesFile.newDataInputStream())
+}
 
 bintray {
     user = properties.getProperty("bintray.user")

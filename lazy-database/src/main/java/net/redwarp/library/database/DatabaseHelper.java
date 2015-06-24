@@ -67,6 +67,11 @@ public class DatabaseHelper {
     return adapter.getAll();
   }
 
+  public <T> long getCount(final Class<T> tClass) {
+    BaseAdapter<T> adapter = getBaseAdapter(tClass);
+    return adapter.getCount();
+  }
+
   private <T> BaseAdapter<T> getBaseAdapter(Class<T> tClass) {
     return BaseAdapter.adapterForClass(mContext, tClass);
   }

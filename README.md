@@ -1,9 +1,14 @@
 # Android-LazyDatabase
 A fast way to store POJO in sqlite on an Android device without troubling yourself with database creation.
 
+[![Build Status](https://travis-ci.org/redwarp/Android-LazyDatabase.svg?branch=develop)](https://travis-ci.org/redwarp/Android-LazyDatabase)
+
 ## What is it?
 If you are working on a proof of concept app for Android (you should probably not use it for production in it's current state), and you need to store some good old POJO, this library is there for you.
 As the title says, it's a database for lazy people.
+
+## ![Warning](readme-assets/warning.png) Warning
+Seriously, **don't use it for production**, only for proof of concept or stuff like that. I mean, really, I might break everything with the next release. It's far from being *future proof* yet.
 
 ## Usage
 
@@ -13,7 +18,7 @@ As the title says, it's a database for lazy people.
 <dependency>
     <groupId>net.redwarp.android.library</groupId>
     <artifactId>lazy-database</artifactId>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
     <type>aar</type>
 </dependency>
 ```
@@ -22,7 +27,7 @@ As the title says, it's a database for lazy people.
 ### For Gradle
 
 ```
-compile 'net.redwarp.android.library:lazy-database:0.1.2'
+compile 'net.redwarp.android.library:lazy-database:0.2.0'
 ```
 
 ## How to?
@@ -102,6 +107,11 @@ List<GoodOldPojo> allPojos = helper.getAll(GoodOldPojo.class);
 GoodOldPojo retrievedPojo = helper.getWithId(GoodOldPojo.class, 2);
 ```
 
+### Object count
+```java
+long count = helper.getCount(GoodOldPojo.class);
+```
+
 ### Chaining stuff
 Let's say you have one POJO containing another POJO, like that:
 ```java
@@ -129,3 +139,6 @@ public class GoodOldPojo {
  * [ ] A shit load
  * [ ] Clear should also deleted chain elements
  * [ ] Relations of type one to many
+ * [ ] Benchmarking (I mean, how fast is it compared to an hand written database)
+ * [ ] Search
+ * [ ] Unique keyword, etc...

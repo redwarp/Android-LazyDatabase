@@ -19,6 +19,7 @@ package net.redwarp.library.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
@@ -188,6 +189,12 @@ public class BaseAdapter<T> {
     }
 
     return new ArrayList<>(0);
+  }
+
+  public long getCount(){
+    SQLiteDatabase db = openHelper.getReadableDatabase();
+
+    return DatabaseUtils.queryNumEntries(db, mTableInfo.getName());
   }
 
   public boolean delete(T object) {
