@@ -18,7 +18,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 <dependency>
     <groupId>net.redwarp.android.library</groupId>
     <artifactId>lazy-database</artifactId>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
     <type>aar</type>
 </dependency>
 ```
@@ -27,7 +27,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 ### For Gradle
 
 ```
-compile 'net.redwarp.android.library:lazy-database:0.1.2'
+compile 'net.redwarp.android.library:lazy-database:0.2.0'
 ```
 
 ## How to?
@@ -105,6 +105,11 @@ List<GoodOldPojo> allPojos = helper.getAll(GoodOldPojo.class);
 
 ```java
 GoodOldPojo retrievedPojo = helper.getWithId(GoodOldPojo.class, 2);
+```
+
+### Object count
+```java
+long count = helper.getCount(GoodOldPojo.class);
 ```
 
 ### Chaining stuff
