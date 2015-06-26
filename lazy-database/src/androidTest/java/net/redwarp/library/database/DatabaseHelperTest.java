@@ -37,6 +37,8 @@ public class DatabaseHelperTest extends AndroidTestCase {
   @Override
   protected void setUp() throws Exception {
     context = new RenamingDelegatingContext(getContext(), "test_");
+    context.deleteDatabase(BaseAdapter.DEFAULT_BASE_NAME);
+
     helper = new DatabaseHelper(context);
   }
 

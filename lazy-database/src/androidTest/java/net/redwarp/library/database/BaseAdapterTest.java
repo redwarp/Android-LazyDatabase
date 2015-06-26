@@ -39,6 +39,8 @@ public class BaseAdapterTest extends AndroidTestCase {
   @Override
   protected void setUp() throws Exception {
     context = new RenamingDelegatingContext(getContext(), "test_");
+    context.deleteDatabase(BaseAdapter.DEFAULT_BASE_NAME);
+
     adapter = BaseAdapter.adapterForClass(mContext, MyClass.class);
     linkAdapter = BaseAdapter.adapterForClass(mContext, Link.class);
   }
