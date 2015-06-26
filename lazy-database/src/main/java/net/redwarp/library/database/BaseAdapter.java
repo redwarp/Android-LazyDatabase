@@ -41,6 +41,7 @@ import java.util.Map;
  */
 public class BaseAdapter<T> {
 
+  public static final String DEFAULT_BASE_NAME = "myBase";
   private static SharedOpenHelper openHelper = null;
 
   private final TableInfo<T> mTableInfo;
@@ -55,9 +56,12 @@ public class BaseAdapter<T> {
     createTableIfNeeded();
   }
 
+
   public static void initSharedOpenHelper(Context context) {
     if (openHelper == null) {
-      openHelper = new SharedOpenHelper(context, "myBase", null, 1);
+      openHelper =
+          new SharedOpenHelper(context, DEFAULT_BASE_NAME,
+                               null, 1);
     }
   }
 
@@ -191,7 +195,7 @@ public class BaseAdapter<T> {
     return new ArrayList<>(0);
   }
 
-  public long getCount(){
+  public long getCount() {
     SQLiteDatabase db = openHelper.getReadableDatabase();
 
     return DatabaseUtils.queryNumEntries(db, mTableInfo.getName());
