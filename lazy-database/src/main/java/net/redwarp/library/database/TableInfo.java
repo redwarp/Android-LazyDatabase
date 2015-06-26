@@ -45,8 +45,20 @@ public class TableInfo<T> {
   private Field[] mChainDeleteFields;
   private long mVersion;
 
+  private static HashMap<Class, TableInfo> allTableInfo = new HashMap<>();
+
   @SuppressWarnings("unchecked")
-  public TableInfo(Class<T> c) {
+  public static <T> TableInfo<T> getTableInfo(Class<T> tClass){
+    TableInfo<T> tableInfo = allTableInfo.get(tClass);
+    if(tableInfo == null){
+      tableInfo = new TableInfo<>(tClass);
+      allTableInfo.put(tClass,tableInfo);
+    }
+    return tableInfo;
+  }
+
+  @SuppressWarnings("unchecked")
+  private TableInfo(Class<T> c) {
     mClass = c;
 
     if (c.isAnnotationPresent(Version.class)) {
@@ -130,6 +142,17 @@ public class TableInfo<T> {
     for (Field field : mColumns.keySet()) {
       columnList.add(getColumnDefinition(mColumns.get(field)));
     }
+
+    // Establish some foreign key for chain delete
+    if (mChainDeleteFields != null) {
+      for (Field field : mChainDeleteFields) {
+        TableInfo fieldInfo = TableInfo.getTableInfo(field.getType());
+        columnList.add(
+            "FOREIGN KEY (" + getColumnName(field) + ") REFERENCES " + fieldInfo.getName() + " ("
+            + fieldInfo.primaryKey.name + ")");
+      }
+    }
+
     builder.append(StringUtils.join(columnList, ", "));
 
     builder.append(" );");

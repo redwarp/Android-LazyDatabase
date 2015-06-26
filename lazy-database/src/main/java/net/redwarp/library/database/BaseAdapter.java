@@ -403,7 +403,7 @@ public class BaseAdapter<T> {
   public static <T> BaseAdapter<T> adapterForClass(Context context, Class<T> tClass) {
     BaseAdapter<?> adapter = baseAdapterMap.get(tClass);
     if (adapter == null) {
-      adapter = new BaseAdapter<>(context, new TableInfo<>(tClass));
+      adapter = new BaseAdapter<>(context, TableInfo.getTableInfo(tClass));
       baseAdapterMap.put(tClass, adapter);
     }
 
