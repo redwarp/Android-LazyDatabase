@@ -24,8 +24,8 @@ import junit.framework.Assert;
 
 import net.redwarp.library.database.test.MyClass;
 import net.redwarp.library.database.test.Test;
+import net.redwarp.library.database.test.TestLink;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -44,7 +44,6 @@ public class DatabaseHelperTest extends AndroidTestCase {
 
   @Override
   protected void tearDown() throws Exception {
-    helper.clear(Test.class);
     helper.close();
   }
 
@@ -127,5 +126,19 @@ public class DatabaseHelperTest extends AndroidTestCase {
     BaseAdapter.getOpenHelper().getWritableDatabase().endTransaction();
 
     Assert.assertEquals("Item count", count, helper.getCount(MyClass.class));
+  }
+
+
+  public void testChainClear() {
+    helper.clear(Test.class);
+    helper.clear(TestLink.class);
+
+    helper.save(new Test());
+
+    Assert.assertEquals("Item count", 1, helper.getCount(TestLink.class));
+
+    helper.clear(Test.class);
+
+    Assert.assertEquals("Item count", 0, helper.getCount(TestLink.class));
   }
 }

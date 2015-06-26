@@ -47,7 +47,6 @@ public class BaseAdapterTest extends AndroidTestCase {
 
   @Override
   protected void tearDown() throws Exception {
-    adapter.clear();
     BaseAdapter.getOpenHelper().close();
   }
 
