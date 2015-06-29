@@ -15,4 +15,5 @@
   -->
 
 <resources>
+  <string name="_lazy_database_base_name">myBase.db</string>
 </resources>
