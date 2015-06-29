@@ -45,8 +45,20 @@ public class TableInfo<T> {
   private Field[] mChainDeleteFields;
   private long mVersion;
 
+  private static HashMap<Class, TableInfo> allTableInfo = new HashMap<>();
+
   @SuppressWarnings("unchecked")
-  public TableInfo(Class<T> c) {
+  public static <T> TableInfo<T> getTableInfo(Class<T> tClass) {
+    TableInfo<T> tableInfo = allTableInfo.get(tClass);
+    if (tableInfo == null) {
+      tableInfo = new TableInfo<>(tClass);
+      allTableInfo.put(tClass, tableInfo);
+    }
+    return tableInfo;
+  }
+
+  @SuppressWarnings("unchecked")
+  private TableInfo(Class<T> c) {
     mClass = c;
 
     if (c.isAnnotationPresent(Version.class)) {
@@ -130,12 +142,39 @@ public class TableInfo<T> {
     for (Field field : mColumns.keySet()) {
       columnList.add(getColumnDefinition(mColumns.get(field)));
     }
+
     builder.append(StringUtils.join(columnList, ", "));
 
     builder.append(" );");
 
     return builder.toString();
   }
+
+  public List<String> getCreateTriggerRequests() {
+    if (mChainDeleteFields != null) {
+      List<String> triggers = new ArrayList<>(mChainDeleteFields.length);
+      for (Field field : mChainDeleteFields) {
+        TableInfo fieldInfo = TableInfo.getTableInfo(field.getType());
+        String
+            trigger =
+            "CREATE TRIGGER delete_" + fieldInfo.getName() + "_FROM_" + getName() + "\n"
+            + "AFTER DELETE ON " + getName() + "\n"
+            + "FOR EACH ROW\n"
+            + " BEGIN\n"
+            + "  DELETE FROM " + fieldInfo.getName() + " WHERE " + fieldInfo.primaryKey.name
+            + " = OLD." + primaryKey.name + ";\n"
+            + " END;";
+        if(!triggers.contains(trigger)) {
+          // No need to add the same trigger twice, if a class as multiple instance of the same object
+          triggers.add(trigger);
+        }
+      }
+      return triggers;
+    } else {
+      return new ArrayList<>(0);
+    }
+  }
+
 
   private String getColumnDefinition(Column column) {
     return column.name + " " + column.type;

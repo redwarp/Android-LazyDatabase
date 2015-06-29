@@ -33,7 +33,7 @@ public class DoTest extends Activity {
   }
 
   public void test() {
-    TableInfo<Test> testTableInfo = new TableInfo<>(Test.class);
+    TableInfo<Test> testTableInfo = TableInfo.getTableInfo(Test.class);
     String create = testTableInfo.getCreateRequest();
 
     Test test = new Test();

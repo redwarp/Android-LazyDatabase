@@ -41,6 +41,7 @@ import java.util.Map;
  */
 public class BaseAdapter<T> {
 
+  public static final String DEFAULT_BASE_NAME = "myBase.db";
   private static SharedOpenHelper openHelper = null;
 
   private final TableInfo<T> mTableInfo;
@@ -55,9 +56,12 @@ public class BaseAdapter<T> {
     createTableIfNeeded();
   }
 
+
   public static void initSharedOpenHelper(Context context) {
     if (openHelper == null) {
-      openHelper = new SharedOpenHelper(context, "myBase", null, 1);
+      openHelper =
+          new SharedOpenHelper(context, DEFAULT_BASE_NAME,
+                               null, 1);
     }
   }
 
@@ -84,6 +88,9 @@ public class BaseAdapter<T> {
     }
     if (!tableExist) {
       db.execSQL(mTableInfo.getCreateRequest());
+      for (String trigger : mTableInfo.getCreateTriggerRequests()) {
+        db.execSQL(trigger);
+      }
 
       SQLiteStatement
           statement =
@@ -94,6 +101,7 @@ public class BaseAdapter<T> {
       statement.clearBindings();
     }
   }
+
 
   public long save(T object) {
     if (object == null) {
@@ -191,7 +199,7 @@ public class BaseAdapter<T> {
     return new ArrayList<>(0);
   }
 
-  public long getCount(){
+  public long getCount() {
     SQLiteDatabase db = openHelper.getReadableDatabase();
 
     return DatabaseUtils.queryNumEntries(db, mTableInfo.getName());
@@ -227,6 +235,14 @@ public class BaseAdapter<T> {
   }
 
   public int clear() {
+    // Because of trigger, has to check child integrity, by getting or creating the adapter for
+    // chain fields.
+    if (mTableInfo.getChainDeleteFields() != null) {
+      for (Field field : mTableInfo.getChainDeleteFields()){
+        adapterForClass(mContext, field.getType());
+      }
+    }
+
     SQLiteDatabase db = openHelper.getWritableDatabase();
     return db.delete(mTableInfo.getName(), "1", null);
   }
@@ -363,6 +379,12 @@ public class BaseAdapter<T> {
 
     }
 
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+      super.onOpen(db);
+      db.execSQL("PRAGMA foreign_keys = ON;");
+    }
+
     public long getSavedClassVersion(TableInfo<?> tableInfo) {
       String className = tableInfo.getName();
       SQLiteDatabase db = getReadableDatabase();
@@ -399,7 +421,7 @@ public class BaseAdapter<T> {
   public static <T> BaseAdapter<T> adapterForClass(Context context, Class<T> tClass) {
     BaseAdapter<?> adapter = baseAdapterMap.get(tClass);
     if (adapter == null) {
-      adapter = new BaseAdapter<>(context, new TableInfo<>(tClass));
+      adapter = new BaseAdapter<>(context, TableInfo.getTableInfo(tClass));
       baseAdapterMap.put(tClass, adapter);
     }
 
