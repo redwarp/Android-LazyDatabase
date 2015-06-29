@@ -235,6 +235,14 @@ public class BaseAdapter<T> {
   }
 
   public int clear() {
+    // Because of trigger, has to check child integrity, by getting or creating the adapter for
+    // chain fields.
+    if (mTableInfo.getChainDeleteFields() != null) {
+      for (Field field : mTableInfo.getChainDeleteFields()){
+        adapterForClass(mContext, field.getType());
+      }
+    }
+
     SQLiteDatabase db = openHelper.getWritableDatabase();
     return db.delete(mTableInfo.getName(), "1", null);
   }
