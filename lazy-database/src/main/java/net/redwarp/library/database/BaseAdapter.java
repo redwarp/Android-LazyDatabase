@@ -116,7 +116,11 @@ public class BaseAdapter<T> {
           long childId = child == null ? -1 : childAdapter.save(child);
 
           String fieldName = mTableInfo.getColumn(field).name;
-          values.put(fieldName, childId);
+          if(childId == -1){
+            values.put(fieldName, (String)null);
+          } else {
+            values.put(fieldName, childId);
+          }
         } catch (IllegalAccessException e) {
           e.printStackTrace();
         }
@@ -365,6 +369,12 @@ public class BaseAdapter<T> {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+      super.onOpen(db);
+      db.execSQL("PRAGMA foreign_keys = ON;");
     }
 
     public long getSavedClassVersion(TableInfo<?> tableInfo) {
