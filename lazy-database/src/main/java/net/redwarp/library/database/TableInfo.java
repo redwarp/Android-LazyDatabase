@@ -16,6 +16,8 @@
 
 package net.redwarp.library.database;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import net.redwarp.library.database.annotation.Chain;
 import net.redwarp.library.database.annotation.PrimaryKey;
 import net.redwarp.library.database.annotation.Version;
@@ -48,11 +50,11 @@ public class TableInfo<T> {
   private static HashMap<Class, TableInfo> allTableInfo = new HashMap<>();
 
   @SuppressWarnings("unchecked")
-  public static <T> TableInfo<T> getTableInfo(Class<T> tClass){
+  public static <T> TableInfo<T> getTableInfo(Class<T> tClass) {
     TableInfo<T> tableInfo = allTableInfo.get(tClass);
-    if(tableInfo == null){
+    if (tableInfo == null) {
       tableInfo = new TableInfo<>(tClass);
-      allTableInfo.put(tClass,tableInfo);
+      allTableInfo.put(tClass, tableInfo);
     }
     return tableInfo;
   }
@@ -143,21 +145,31 @@ public class TableInfo<T> {
       columnList.add(getColumnDefinition(mColumns.get(field)));
     }
 
-    // Establish some foreign key for chain delete
-    if (mChainDeleteFields != null) {
-      for (Field field : mChainDeleteFields) {
-        TableInfo fieldInfo = TableInfo.getTableInfo(field.getType());
-        columnList.add(
-            "FOREIGN KEY (" + getColumnName(field) + ") REFERENCES " + fieldInfo.getName() + " ("
-            + fieldInfo.primaryKey.name + ")");
-      }
-    }
-
     builder.append(StringUtils.join(columnList, ", "));
 
     builder.append(" );");
 
     return builder.toString();
+  }
+
+
+  public void createTriggers(SQLiteDatabase db) {
+// Establish some trigger for chain delete
+    if (mChainDeleteFields != null) {
+      for (Field field : mChainDeleteFields) {
+        TableInfo fieldInfo = TableInfo.getTableInfo(field.getType());
+        String
+            trigger =
+            "CREATE TRIGGER delete_" + fieldInfo.getName() + "_from_" + getName() + "\n"
+            + "AFTER DELETE ON " + getName() + "\n"
+            + "FOR EACH ROW\n"
+            + " BEGIN\n"
+            + "  DELETE FROM " + fieldInfo.getName() + " WHERE " + fieldInfo.primaryKey.name
+            + " = OLD." + primaryKey.name + ";\n"
+            + " END;";
+        db.execSQL(trigger);
+      }
+    }
   }
 
   private String getColumnDefinition(Column column) {

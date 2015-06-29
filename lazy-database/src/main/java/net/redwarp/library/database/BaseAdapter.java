@@ -41,7 +41,7 @@ import java.util.Map;
  */
 public class BaseAdapter<T> {
 
-  public static final String DEFAULT_BASE_NAME = "myBase";
+  public static final String DEFAULT_BASE_NAME = "myBase.db";
   private static SharedOpenHelper openHelper = null;
 
   private final TableInfo<T> mTableInfo;
@@ -89,6 +89,8 @@ public class BaseAdapter<T> {
     if (!tableExist) {
       db.execSQL(mTableInfo.getCreateRequest());
 
+      mTableInfo.createTriggers(db);
+
       SQLiteStatement
           statement =
           db.compileStatement("INSERT OR REPLACE INTO versions (class_name, version) VALUES (?,?)");
@@ -98,6 +100,7 @@ public class BaseAdapter<T> {
       statement.clearBindings();
     }
   }
+
 
   public long save(T object) {
     if (object == null) {
@@ -116,11 +119,7 @@ public class BaseAdapter<T> {
           long childId = child == null ? -1 : childAdapter.save(child);
 
           String fieldName = mTableInfo.getColumn(field).name;
-          if(childId == -1){
-            values.put(fieldName, (String)null);
-          } else {
-            values.put(fieldName, childId);
-          }
+          values.put(fieldName, childId);
         } catch (IllegalAccessException e) {
           e.printStackTrace();
         }

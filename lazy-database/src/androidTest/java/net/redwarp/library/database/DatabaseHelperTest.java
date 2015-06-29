@@ -130,8 +130,8 @@ public class DatabaseHelperTest extends AndroidTestCase {
 
 
   public void testChainClear() {
-    helper.clear(Test.class);
     helper.clear(TestLink.class);
+    helper.clear(Test.class);
 
     helper.save(new Test());
 
