@@ -88,8 +88,9 @@ public class BaseAdapter<T> {
     }
     if (!tableExist) {
       db.execSQL(mTableInfo.getCreateRequest());
-
-      mTableInfo.createTriggers(db);
+      for (String trigger : mTableInfo.getCreateTriggerRequests()) {
+        db.execSQL(trigger);
+      }
 
       SQLiteStatement
           statement =

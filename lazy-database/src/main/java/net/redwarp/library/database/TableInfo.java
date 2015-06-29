@@ -152,10 +152,9 @@ public class TableInfo<T> {
     return builder.toString();
   }
 
-
-  public void createTriggers(SQLiteDatabase db) {
-// Establish some trigger for chain delete
+  public List<String> getCreateTriggerRequests() {
     if (mChainDeleteFields != null) {
+      List<String> triggers = new ArrayList<>(mChainDeleteFields.length);
       for (Field field : mChainDeleteFields) {
         TableInfo fieldInfo = TableInfo.getTableInfo(field.getType());
         String
@@ -167,10 +166,14 @@ public class TableInfo<T> {
             + "  DELETE FROM " + fieldInfo.getName() + " WHERE " + fieldInfo.primaryKey.name
             + " = OLD." + primaryKey.name + ";\n"
             + " END;";
-        db.execSQL(trigger);
+        triggers.add(trigger);
       }
+      return triggers;
+    } else {
+      return new ArrayList<>(0);
     }
   }
+
 
   private String getColumnDefinition(Column column) {
     return column.name + " " + column.type;
