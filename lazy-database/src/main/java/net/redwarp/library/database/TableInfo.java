@@ -164,7 +164,10 @@ public class TableInfo<T> {
             + "  DELETE FROM " + fieldInfo.getName() + " WHERE " + fieldInfo.primaryKey.name
             + " = OLD." + primaryKey.name + ";\n"
             + " END;";
-        triggers.add(trigger);
+        if(!triggers.contains(trigger)) {
+          // No need to add the same trigger twice, if a class as multiple instance of the same object
+          triggers.add(trigger);
+        }
       }
       return triggers;
     } else {
