@@ -18,7 +18,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 <dependency>
     <groupId>net.redwarp.android.library</groupId>
     <artifactId>lazy-database</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <type>aar</type>
 </dependency>
 ```
@@ -27,7 +27,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 ### For Gradle
 
 ```
-compile 'net.redwarp.android.library:lazy-database:0.2.0'
+compile 'net.redwarp.android.library:lazy-database:0.2.1'
 ```
 
 ## How to?
@@ -137,7 +137,7 @@ public class GoodOldPojo {
 ## What's left to do?
 
  * [ ] A shit load
- * [ ] Clear should also deleted chain elements
+ * [x] Clear should also deleted chain elements
  * [ ] Relations of type one to many
  * [ ] Benchmarking (I mean, how fast is it compared to an hand written database)
  * [ ] Search
