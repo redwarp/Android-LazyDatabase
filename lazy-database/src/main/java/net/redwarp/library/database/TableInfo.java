@@ -16,8 +16,6 @@
 
 package net.redwarp.library.database;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import net.redwarp.library.database.annotation.Chain;
 import net.redwarp.library.database.annotation.PrimaryKey;
 import net.redwarp.library.database.annotation.Version;
