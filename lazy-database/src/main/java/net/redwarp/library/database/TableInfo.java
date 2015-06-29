@@ -157,7 +157,7 @@ public class TableInfo<T> {
         TableInfo fieldInfo = TableInfo.getTableInfo(field.getType());
         String
             trigger =
-            "CREATE TRIGGER delete_" + fieldInfo.getName() + "_from_" + getName() + "\n"
+            "CREATE TRIGGER delete_" + fieldInfo.getName() + "_FROM_" + getName() + "\n"
             + "AFTER DELETE ON " + getName() + "\n"
             + "FOR EACH ROW\n"
             + " BEGIN\n"
