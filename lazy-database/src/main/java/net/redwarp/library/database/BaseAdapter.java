@@ -40,8 +40,6 @@ import java.util.Map;
  * is never closed, as read in https://groups.google.com/forum/#!msg/android-developers/nopkaw4UZ9U/cPfPL3uW7nQJ
  */
 public class BaseAdapter<T> {
-
-  public static final String DEFAULT_BASE_NAME = "myBase.db";
   private static SharedOpenHelper openHelper = null;
 
   private final TableInfo<T> mTableInfo;
@@ -60,7 +58,7 @@ public class BaseAdapter<T> {
   public static void initSharedOpenHelper(Context context) {
     if (openHelper == null) {
       openHelper =
-          new SharedOpenHelper(context, DEFAULT_BASE_NAME,
+          new SharedOpenHelper(context, context.getString(R.string._lazy_database_base_name),
                                null, 1);
     }
   }

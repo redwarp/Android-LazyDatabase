@@ -36,7 +36,6 @@ import java.util.Set;
 public class TableInfo<T> {
 
   private Class<T> mClass;
-  //    private Map<Field, SQLiteUtils.SQLiteType> mFieldMap;
   private Map<Field, Column> mColumns;
   private List<Field> mObjectFields;
   public Column primaryKey = null;
