@@ -26,19 +26,19 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by Redwarp on 27/05/2015.
  */
-public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.ViewHolder> {
+public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.ViewHolder> {
 
   private final Context mContext;
-  private List<RandomStuff> mStuffList;
+  private List<RandomUser> mStuffList;
   private ItemCountChangedListener mCountListener = null;
 
-  public RandomStuffAdapter(Context context, List<RandomStuff> stuffList) {
+  public RandomUserAdapter(Context context, List<RandomUser> stuffList) {
     mContext = context;
 
     if (stuffList != null) {
@@ -48,7 +48,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
     }
   }
 
-  public void addStuff(RandomStuff stuff) {
+  public void addStuff(RandomUser stuff) {
     if (stuff != null) {
       mStuffList.add(stuff);
       notifyItemInserted(mStuffList.size() - 1);
@@ -56,7 +56,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
     }
   }
 
-  public void addAllStuff(List<RandomStuff> stuffList) {
+  public void addAllStuff(List<RandomUser> stuffList) {
     if (stuffList != null) {
       int startingPoint = mStuffList.size();
       mStuffList.addAll(stuffList);
@@ -90,7 +90,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    RandomStuff stuff = mStuffList.get(position);
+    RandomUser stuff = mStuffList.get(position);
     holder.textView.setText(stuff.name);
   }
 
@@ -102,17 +102,17 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
 
   public class ViewHolder extends RecyclerView.ViewHolder {
 
-    @InjectView(R.id.text)
+    @Bind(R.id.text)
     TextView textView;
 
     public ViewHolder(View itemView) {
       super(itemView);
-      ButterKnife.inject(this, itemView);
+      ButterKnife.bind(this, itemView);
     }
   }
 
-  public static interface ItemCountChangedListener {
+  public interface ItemCountChangedListener {
 
-    public void onItemCountChange(int newCount);
+    void onItemCountChange(int newCount);
   }
 }

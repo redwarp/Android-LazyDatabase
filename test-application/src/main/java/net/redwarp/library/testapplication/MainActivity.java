@@ -28,43 +28,42 @@ import net.redwarp.library.testapplication.tools.NameGenerator;
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 
 public class MainActivity extends AppCompatActivity
-    implements RandomStuffAdapter.ItemCountChangedListener {
+    implements RandomUserAdapter.ItemCountChangedListener {
 
-  @InjectView(R.id.recycler_view)
+  @Bind(R.id.recycler_view)
   RecyclerView mRecyclerView;
   private NameGenerator mGenerator;
-  private RandomStuffAdapter mAdapter;
+  private RandomUserAdapter mAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ButterKnife.inject(this);
+    ButterKnife.bind(this);
 
     mGenerator = new NameGenerator();
 
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     mRecyclerView.setHasFixedSize(true);
-    mAdapter = new RandomStuffAdapter(this, null);
+    mAdapter = new RandomUserAdapter(this, null);
     mAdapter.setOnItemCountChangeListener(this);
     mRecyclerView.setAdapter(mAdapter);
 
     setTitle(R.string.loading);
-    AsyncTask<Void, Void, List<RandomStuff>>
+    AsyncTask<Void, Void, List<RandomUser>>
         fetchAllStuffTask =
-        new AsyncTask<Void, Void, List<RandomStuff>>() {
+        new AsyncTask<Void, Void, List<RandomUser>>() {
           @Override
-          protected List<RandomStuff> doInBackground(Void... voids) {
-            return TestApplication.getDatabaseHelper().getAll(RandomStuff.class);
+          protected List<RandomUser> doInBackground(Void... voids) {
+            return TestApplication.getDatabaseHelper().getAll(RandomUser.class);
           }
 
           @Override
-          protected void onPostExecute(List<RandomStuff> stuffList) {
+          protected void onPostExecute(List<RandomUser> stuffList) {
             mAdapter.addAllStuff(stuffList);
           }
         };
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity
     AsyncTask<Void, Void, Integer> clearStuffTask = new AsyncTask<Void, Void, Integer>() {
       @Override
       protected Integer doInBackground(Void... voids) {
-        return TestApplication.getDatabaseHelper().clear(RandomStuff.class);
+        return TestApplication.getDatabaseHelper().clear(RandomUser.class);
       }
 
       @Override
@@ -122,11 +121,11 @@ public class MainActivity extends AppCompatActivity
    */
   private void addRandomStuff() {
     AsyncTask<Void, Void, Boolean> addStuffTask = new AsyncTask<Void, Void, Boolean>() {
-      RandomStuff savedStuff;
+      RandomUser savedStuff;
 
       @Override
       protected Boolean doInBackground(Void... voids) {
-        RandomStuff stuff = new RandomStuff(mGenerator.next() + " " + mGenerator.next());
+        RandomUser stuff = new RandomUser(mGenerator.next() + " " + mGenerator.next());
         savedStuff = stuff;
         return TestApplication.getDatabaseHelper().save(stuff);
       }

@@ -19,17 +19,17 @@ package net.redwarp.library.testapplication;
 /**
  * Created by Redwarp on 27/05/2015.
  */
-public class RandomStuff {
+public class RandomUser {
 
   public String name;
 
   /**
    * Required empty constructor
    */
-  public RandomStuff() {
+  public RandomUser() {
   }
 
-  public RandomStuff(String name){
+  public RandomUser(String name){
     this.name = name;
   }
 }
