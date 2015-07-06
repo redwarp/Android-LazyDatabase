@@ -26,7 +26,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import net.redwarp.library.testapplication.tools.NameGenerator;
 
@@ -100,11 +99,8 @@ public class MainActivity extends AppCompatActivity
     int id = item.getItemId();
 
     //noinspection SimplifiableIfStatement
-    if (id == R.id.action_add) {
-      this.addRandomStuff();
-      return true;
-    } else if (id == R.id.action_clear) {
-      this.clearRandomStuff();
+    if (id == R.id.action_clear) {
+      clearRandomStuff();
       return true;
     }
 
@@ -127,7 +123,7 @@ public class MainActivity extends AppCompatActivity
           mAdapter.clearStuff();
 
           Snackbar.make(findViewById(R.id.coordinator_layout), getResources()
-              .getQuantityString(R.plurals.deletion, affectedRows, affectedRows),
+                            .getQuantityString(R.plurals.deletion, affectedRows, affectedRows),
                         Snackbar.LENGTH_SHORT).show();
         }
       }
