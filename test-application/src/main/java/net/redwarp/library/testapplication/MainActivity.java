@@ -18,12 +18,15 @@ package net.redwarp.library.testapplication;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import net.redwarp.library.testapplication.tools.NameGenerator;
 
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity
 
   @Bind(R.id.recycler_view)
   RecyclerView mRecyclerView;
+
+  @Bind(R.id.add_button)
+  FloatingActionButton mAddButton;
+
   private NameGenerator mGenerator;
   private RandomUserAdapter mAdapter;
 
@@ -69,6 +76,13 @@ public class MainActivity extends AppCompatActivity
           }
         };
     fetchAllStuffTask.execute();
+
+    mAddButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        addRandomStuff();
+      }
+    });
   }
 
   @Override
@@ -112,7 +126,8 @@ public class MainActivity extends AppCompatActivity
         if (affectedRows > 0) {
           mAdapter.clearStuff();
 
-          Snackbar.make(findViewById(android.R.id.content), getResources().getQuantityString(R.plurals.deletion, affectedRows, affectedRows),
+          Snackbar.make(findViewById(R.id.coordinator_layout), getResources()
+              .getQuantityString(R.plurals.deletion, affectedRows, affectedRows),
                         Snackbar.LENGTH_SHORT).show();
         }
       }
