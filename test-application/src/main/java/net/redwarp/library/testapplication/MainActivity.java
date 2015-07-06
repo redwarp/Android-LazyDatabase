@@ -18,6 +18,7 @@ package net.redwarp.library.testapplication;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -110,6 +111,9 @@ public class MainActivity extends AppCompatActivity
       protected void onPostExecute(Integer affectedRows) {
         if (affectedRows > 0) {
           mAdapter.clearStuff();
+
+          Snackbar.make(findViewById(android.R.id.content), getResources().getQuantityString(R.plurals.deletion, affectedRows, affectedRows),
+                        Snackbar.LENGTH_SHORT).show();
         }
       }
     };
