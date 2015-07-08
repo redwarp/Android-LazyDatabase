@@ -91,7 +91,7 @@ public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.Vi
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
     RandomUser stuff = mStuffList.get(position);
-    holder.textView.setText(stuff.name);
+    holder.textView.setText(stuff.getName());
   }
 
   @Override

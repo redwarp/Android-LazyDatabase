@@ -14,22 +14,23 @@
  * Copyright 2015 Redwarp
  */
 
-package net.redwarp.library.testapplication;
+package net.redwarp.library.testapplication
 
 /**
  * Created by Redwarp on 27/05/2015.
  */
 public class RandomUser {
 
-  public String name;
+    public var name: String?
 
-  /**
-   * Required empty constructor
-   */
-  public RandomUser() {
-  }
+    /**
+     * Required empty constructor
+     */
+    public constructor() {
+        this.name = null;
+    }
 
-  public RandomUser(String name){
-    this.name = name;
-  }
+    public constructor(name: String) {
+        this.name = name
+    }
 }
