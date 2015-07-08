@@ -23,7 +23,7 @@
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/deep_purple_500</item>
         <item name="colorPrimaryDark">@color/deep_purple_700</item>
-        <item name="colorAccent">@color/green_a200</item>
+        <item name="colorAccent">@color/green_500</item>
     </style>
 
 </resources>

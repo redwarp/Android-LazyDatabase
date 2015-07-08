@@ -34,6 +34,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
 public class MainActivity extends AppCompatActivity
     implements RandomUserAdapter.ItemCountChangedListener {
 
