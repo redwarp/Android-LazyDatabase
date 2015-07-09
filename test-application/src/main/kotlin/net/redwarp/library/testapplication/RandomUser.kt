@@ -21,19 +21,17 @@ import net.redwarp.library.database.annotation.PrimaryKey
 /**
  * Created by Redwarp on 27/05/2015.
  */
-public class RandomUser {
+public data class RandomUser(PrimaryKey var id: Long, var name: String? = null) {
 
-    PrimaryKey public var id: Long = -1
-    public var name: String?
+    //    PrimaryKey public var id: Long = -1
+    //    public var name: String?
 
     /**
      * Required empty constructor
      */
-    public constructor() {
-        this.name = null;
+    public constructor() : this(id = -1, name = null) {
     }
 
-    public constructor(name: String) {
-        this.name = name
+    public constructor(name: String?) : this(id = -1, name = name) {
     }
 }

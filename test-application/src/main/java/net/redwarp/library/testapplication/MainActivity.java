@@ -23,6 +23,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
     implements RandomUserAdapter.ItemCountChangedListener {
+
+  public static final String TAG = "MainActivity";
 
   @Bind(R.id.recycler_view)
   RecyclerView mRecyclerView;
@@ -150,6 +153,7 @@ public class MainActivity extends AppCompatActivity
       protected void onPostExecute(Boolean success) {
         if (success) {
           mAdapter.addStuff(savedStuff);
+          Log.d(TAG, "Saved " + savedStuff);
         }
       }
     };
