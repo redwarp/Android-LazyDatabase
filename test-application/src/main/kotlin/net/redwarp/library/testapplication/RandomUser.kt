@@ -16,11 +16,14 @@
 
 package net.redwarp.library.testapplication
 
+import net.redwarp.library.database.annotation.PrimaryKey
+
 /**
  * Created by Redwarp on 27/05/2015.
  */
 public class RandomUser {
 
+    PrimaryKey public var id: Long = -1
     public var name: String?
 
     /**
