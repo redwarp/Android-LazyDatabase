@@ -124,21 +124,31 @@ public class TableInfo<T> {
     validate();
   }
 
-  private void validate() throws ClassNotValidException {
+  private void validate() throws InvalidClassException {
+    StringBuilder errors = new StringBuilder();
+    if (!hasPrimaryKey()) {
+      errors.append("\n * missing primaryKey field");
+    }
+
     Class<?> declaringClass = getInfoClass().getDeclaringClass();
     if (declaringClass != null && !Modifier.isStatic(getInfoClass().getModifiers())) {
       // Inner non static class
       try {
         getInfoClass().getDeclaredConstructor(declaringClass);
       } catch (NoSuchMethodException e) {
-        throw new ClassNotValidException("Missing empty constructor");
+        errors.append("\n * missing empty constructor");
       }
     } else {
       try {
         getInfoClass().getDeclaredConstructor();
       } catch (NoSuchMethodException e) {
-        throw new ClassNotValidException("Missing empty constructor");
+        errors.append("\n * missing empty constructor");
       }
+    }
+
+    if (errors.length() > 0) {
+      // We got errors yeah!
+      throw new InvalidClassException(mClass.getName() + errors);
     }
   }
 
@@ -253,9 +263,9 @@ public class TableInfo<T> {
     return mClass;
   }
 
-  public static class ClassNotValidException extends RuntimeException {
+  public static class InvalidClassException extends RuntimeException {
 
-    public ClassNotValidException(String detailMessage) {
+    public InvalidClassException(String detailMessage) {
       super(detailMessage);
     }
   }
