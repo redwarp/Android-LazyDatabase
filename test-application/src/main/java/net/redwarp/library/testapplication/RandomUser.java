@@ -16,11 +16,15 @@
 
 package net.redwarp.library.testapplication;
 
+import net.redwarp.library.database.annotation.PrimaryKey;
+
 /**
  * Created by Redwarp on 27/05/2015.
  */
 public class RandomUser {
 
+  @PrimaryKey
+  private long mId;
   public String name;
 
   /**
@@ -29,7 +33,7 @@ public class RandomUser {
   public RandomUser() {
   }
 
-  public RandomUser(String name){
+  public RandomUser(String name) {
     this.name = name;
   }
 }
