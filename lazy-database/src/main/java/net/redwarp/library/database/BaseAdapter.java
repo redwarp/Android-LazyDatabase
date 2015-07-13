@@ -40,7 +40,7 @@ import java.util.Map;
  * is never closed, as read in https://groups.google.com/forum/#!msg/android-developers/nopkaw4UZ9U/cPfPL3uW7nQJ
  */
 public class BaseAdapter<T> {
-  private static SharedOpenHelper openHelper = null;
+  private static SharedOpenHelper sOpenHelper = null;
 
   private final TableInfo<T> mTableInfo;
   private final Context mContext;
@@ -56,34 +56,20 @@ public class BaseAdapter<T> {
 
 
   public static void initSharedOpenHelper(Context context) {
-    if (openHelper == null) {
-      openHelper =
+    if (sOpenHelper == null) {
+      sOpenHelper =
           new SharedOpenHelper(context, context.getString(R.string._lazy_database_base_name),
                                null, 1);
     }
   }
 
   private void createTableIfNeeded() {
-    final long version = openHelper.getSavedClassVersion(mTableInfo);
+    final long version = sOpenHelper.getSavedClassVersion(mTableInfo);
 
-    SQLiteDatabase db = openHelper.getWritableDatabase();
+    SQLiteDatabase db = sOpenHelper.getWritableDatabase();
 
-    Cursor
-        cursor =
-        db.rawQuery(
-            "select DISTINCT tbl_name from sqlite_master where tbl_name = '" + mTableInfo.getName()
-            + "'", null);
-    boolean tableExist;
-    if (cursor != null) {
-      if (cursor.getCount() > 0) {
-        tableExist = true;
-      } else {
-        tableExist = false;
-      }
-      cursor.close();
-    } else {
-      tableExist = false;
-    }
+    boolean tableExist = doesTableExist(db);
+
     if (!tableExist) {
       db.execSQL(mTableInfo.getCreateRequest());
       for (String trigger : mTableInfo.getCreateTriggerRequests()) {
@@ -100,12 +86,32 @@ public class BaseAdapter<T> {
     }
   }
 
+  private boolean doesTableExist(SQLiteDatabase db) {
+    Cursor
+        cursor =
+        db.rawQuery(
+            "select DISTINCT tbl_name from sqlite_master where tbl_name = '" + mTableInfo.getName()
+            + "'", null);
+    boolean tableExist;
+    if (cursor != null) {
+      if (cursor.getCount() > 0) {
+        tableExist = true;
+      } else {
+        tableExist = false;
+      }
+      cursor.close();
+    } else {
+      tableExist = false;
+    }
+    return tableExist;
+  }
+
 
   public long save(T object) {
     if (object == null) {
       throw new NullPointerException("Can't save null object");
     }
-    SQLiteDatabase db = openHelper.getWritableDatabase();
+    SQLiteDatabase db = sOpenHelper.getWritableDatabase();
     ContentValues values = new ContentValues();
     for (Field field : mTableInfo.getFields()) {
       if (mTableInfo.getObjectFields().contains(field)) {
@@ -149,7 +155,7 @@ public class BaseAdapter<T> {
   }
 
   private T getWithId(final long id, @Nullable final Object parent) {
-    SQLiteDatabase db = openHelper.getWritableDatabase();
+    SQLiteDatabase db = sOpenHelper.getWritableDatabase();
     Cursor
         cursor =
         db.query(mTableInfo.getName(), mTableInfo.getColumnNames(),
@@ -174,7 +180,7 @@ public class BaseAdapter<T> {
 
 
   public List<T> getAll() {
-    SQLiteDatabase db = openHelper.getWritableDatabase();
+    SQLiteDatabase db = sOpenHelper.getWritableDatabase();
     Cursor
         cursor =
         db.query(mTableInfo.getName(), mTableInfo.getColumnNames(), null, null, null, null, null,
@@ -198,13 +204,13 @@ public class BaseAdapter<T> {
   }
 
   public long getCount() {
-    SQLiteDatabase db = openHelper.getReadableDatabase();
+    SQLiteDatabase db = sOpenHelper.getReadableDatabase();
 
     return DatabaseUtils.queryNumEntries(db, mTableInfo.getName());
   }
 
   public boolean delete(T object) {
-    SQLiteDatabase db = openHelper.getWritableDatabase();
+    SQLiteDatabase db = sOpenHelper.getWritableDatabase();
     if (mTableInfo.hasPrimaryKey()) {
       try {
         long id = mTableInfo.primaryKey.field.getLong(object);
@@ -241,7 +247,7 @@ public class BaseAdapter<T> {
       }
     }
 
-    SQLiteDatabase db = openHelper.getWritableDatabase();
+    SQLiteDatabase db = sOpenHelper.getWritableDatabase();
     return db.delete(mTableInfo.getName(), "1", null);
   }
 
@@ -411,7 +417,7 @@ public class BaseAdapter<T> {
   }
 
   public static SharedOpenHelper getOpenHelper() {
-    return openHelper;
+    return sOpenHelper;
   }
 
   private final static Map<Class<?>, BaseAdapter<?>> baseAdapterMap = new HashMap<>();

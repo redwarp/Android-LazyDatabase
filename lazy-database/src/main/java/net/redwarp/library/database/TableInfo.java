@@ -44,14 +44,14 @@ public class TableInfo<T> {
   private Field[] mChainDeleteFields;
   private long mVersion;
 
-  private static HashMap<Class, TableInfo> allTableInfo = new HashMap<>();
+  private static HashMap<Class, TableInfo> sAllTableInfo = new HashMap<>();
 
   @SuppressWarnings("unchecked")
   public static <T> TableInfo<T> getTableInfo(Class<T> tClass) {
-    TableInfo<T> tableInfo = allTableInfo.get(tClass);
+    TableInfo<T> tableInfo = sAllTableInfo.get(tClass);
     if (tableInfo == null) {
       tableInfo = new TableInfo<>(tClass);
-      allTableInfo.put(tClass, tableInfo);
+      sAllTableInfo.put(tClass, tableInfo);
     }
     return tableInfo;
   }
@@ -120,6 +120,26 @@ public class TableInfo<T> {
     mColumnNames = columnNames.toArray(new String[columnNames.size()]);
     mFields = finalFields.toArray(new Field[finalFields.size()]);
     mChainDeleteFields = chainDeleteFields.toArray(new Field[chainDeleteFields.size()]);
+
+    validate();
+  }
+
+  private void validate() throws ClassNotValidException {
+    Class<?> declaringClass = getInfoClass().getDeclaringClass();
+    if (declaringClass != null && !Modifier.isStatic(getInfoClass().getModifiers())) {
+      // Inner non static class
+      try {
+        getInfoClass().getDeclaredConstructor(declaringClass);
+      } catch (NoSuchMethodException e) {
+        throw new ClassNotValidException("Missing empty constructor");
+      }
+    } else {
+      try {
+        getInfoClass().getDeclaredConstructor();
+      } catch (NoSuchMethodException e) {
+        throw new ClassNotValidException("Missing empty constructor");
+      }
+    }
   }
 
   public String getName() {
@@ -163,7 +183,7 @@ public class TableInfo<T> {
             + "  DELETE FROM " + fieldInfo.getName() + " WHERE " + fieldInfo.primaryKey.name
             + " = OLD." + primaryKey.name + ";\n"
             + " END;";
-        if(!triggers.contains(trigger)) {
+        if (!triggers.contains(trigger)) {
           // No need to add the same trigger twice, if a class as multiple instance of the same object
           triggers.add(trigger);
         }
@@ -233,4 +253,10 @@ public class TableInfo<T> {
     return mClass;
   }
 
+  public static class ClassNotValidException extends RuntimeException {
+
+    public ClassNotValidException(String detailMessage) {
+      super(detailMessage);
+    }
+  }
 }
