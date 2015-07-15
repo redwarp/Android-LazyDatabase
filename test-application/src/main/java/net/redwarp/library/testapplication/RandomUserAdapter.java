@@ -84,7 +84,7 @@ public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.Vi
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(mContext).inflate(R.layout.cell_random_stuff, parent, false);
+    View view = LayoutInflater.from(mContext).inflate(R.layout.item_random_stuff, parent, false);
     return new ViewHolder(view);
   }
 
