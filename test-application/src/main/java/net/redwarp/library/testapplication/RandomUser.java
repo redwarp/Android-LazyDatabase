@@ -36,4 +36,8 @@ public class RandomUser {
   public RandomUser(String name) {
     this.name = name;
   }
+
+  public long getId() {
+    return mId;
+  }
 }

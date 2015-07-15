@@ -17,6 +17,7 @@
 package net.redwarp.library.testapplication;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,9 @@ public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.Vi
   private final Context mContext;
   private List<RandomUser> mStuffList;
   private ItemCountChangedListener mCountListener = null;
+
+
+  private OnRandomUserClickedListener mUserClickedListener = null;
 
   public RandomUserAdapter(Context context, List<RandomUser> stuffList) {
     mContext = context;
@@ -100,7 +104,7 @@ public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.Vi
   }
 
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
+  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     @Bind(R.id.text)
     TextView textView;
@@ -108,11 +112,32 @@ public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.Vi
     public ViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
+      itemView.setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(@NonNull View view) {
+      if (mUserClickedListener != null) {
+        assert mStuffList != null;
+        int position = getLayoutPosition();
+        if (position < mStuffList.size()) {
+          mUserClickedListener.onRandomUserClicked(mStuffList.get(position), position);
+        }
+      }
+    }
+  }
+
+  public void setOnUserClickedListener(OnRandomUserClickedListener userClickedListener) {
+    mUserClickedListener = userClickedListener;
   }
 
   public interface ItemCountChangedListener {
 
     void onItemCountChange(int newCount);
+  }
+
+  public interface OnRandomUserClickedListener {
+
+    void onRandomUserClicked(final RandomUser user, final int position);
   }
 }
