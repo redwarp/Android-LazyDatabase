@@ -19,16 +19,8 @@
     <!-- Base application theme. -->
     <style name="_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-    </style>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="_AppTheme">
-        <!-- Customize your theme here. -->
-
-        <!-- Set AppCompat’s color theming attrs -->
-        <item name="colorPrimary">@color/deep_purple_500</item>
-        <item name="colorPrimaryDark">@color/deep_purple_700</item>
-        <item name="colorAccent">@color/green_500</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
 </resources>
