@@ -1,7 +1,9 @@
 package net.redwarp.library.testapplication;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -18,6 +20,9 @@ public class DetailActivity extends AppCompatActivity {
 
     setContentView(R.layout.activity_detail);
     ButterKnife.bind(this);
+    if (getActionBar() != null) {
+      getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
     long userId = getIntent().getLongExtra(MainActivity.EXTRA_USER_ID, -1);
     if (userId != -1) {
@@ -26,5 +31,20 @@ public class DetailActivity extends AppCompatActivity {
         mTextView.setText(user.name);
       }
     }
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      // Respond to the action bar's Up/Home button
+      case android.R.id.home:
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          finishAfterTransition();
+        } else {
+          finish();
+        }
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 }
