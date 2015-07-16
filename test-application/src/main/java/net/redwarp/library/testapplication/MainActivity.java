@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +41,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
     implements RandomUserAdapter.ItemCountChangedListener {
 
+  public static final String EXTRA_USER_ID = "net.redwarp.library.testapplication.extra.EXTRA_USER_ID";
   @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
   @Bind(R.id.add_button) FloatingActionButton mAddButton;
 
@@ -60,10 +62,19 @@ public class MainActivity extends AppCompatActivity
     mAdapter.setOnItemCountChangeListener(this);
     mAdapter.setOnUserClickedListener(new RandomUserAdapter.OnRandomUserClickedListener() {
       @Override
-      public void onRandomUserClicked(RandomUser user, int position) {
+      public void onRandomUserClicked(final RandomUser user, final View view, final int position) {
         // Check https://medium.com/@fredrikaldgard/easy-android-shared-element-transition-ac36952a4a4
         // for custom transitions
-        startActivity(new Intent(MainActivity.this, DetailActivity.class));
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra(EXTRA_USER_ID, user.getId());
+
+        ActivityOptionsCompat
+            options =
+            ActivityOptionsCompat
+                .makeSceneTransitionAnimation(MainActivity.this, view.findViewById(R.id.text),
+                                              getString(R.string.transition_text_view));
+
+        ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
       }
     });
     mRecyclerView.setAdapter(mAdapter);

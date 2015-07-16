@@ -116,12 +116,12 @@ public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.Vi
     }
 
     @Override
-    public void onClick(@NonNull View view) {
+    public void onClick(@NonNull final View view) {
       if (mUserClickedListener != null) {
         assert mStuffList != null;
         int position = getLayoutPosition();
         if (position < mStuffList.size()) {
-          mUserClickedListener.onRandomUserClicked(mStuffList.get(position), position);
+          mUserClickedListener.onRandomUserClicked(mStuffList.get(position), view, position);
         }
       }
     }
@@ -138,6 +138,6 @@ public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.Vi
 
   public interface OnRandomUserClickedListener {
 
-    void onRandomUserClicked(final RandomUser user, final int position);
+    void onRandomUserClicked(final RandomUser user, final View view, final int position);
   }
 }

@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
-  @Bind(R.id.text) private TextView mTextView;
+  @Bind(R.id.text) TextView mTextView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -18,5 +18,13 @@ public class DetailActivity extends AppCompatActivity {
 
     setContentView(R.layout.activity_detail);
     ButterKnife.bind(this);
+
+    long userId = getIntent().getLongExtra(MainActivity.EXTRA_USER_ID, -1);
+    if (userId != -1) {
+      RandomUser user = TestApplication.getDatabaseHelper().getWithId(RandomUser.class, userId);
+      if (user != null) {
+        mTextView.setText(user.name);
+      }
+    }
   }
 }

@@ -11,5 +11,6 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             tools:text="Large Text"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:id="@+id/text"/>
+            android:id="@+id/text"
+            android:transitionName="@string/transition_text_view"/>
 </LinearLayout>
