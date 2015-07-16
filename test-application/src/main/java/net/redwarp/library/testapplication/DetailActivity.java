@@ -1,7 +1,7 @@
 package net.redwarp.library.testapplication;
 
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -38,11 +38,7 @@ public class DetailActivity extends AppCompatActivity {
     switch (item.getItemId()) {
       // Respond to the action bar's Up/Home button
       case android.R.id.home:
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-          finishAfterTransition();
-        } else {
-          finish();
-        }
+        ActivityCompat.finishAfterTransition(this);
         return true;
     }
     return super.onOptionsItemSelected(item);
