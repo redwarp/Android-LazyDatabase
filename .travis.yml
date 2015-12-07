@@ -5,8 +5,8 @@ branches:
     - develop
 android:
   components:
-  - android-22
-  - build-tools-22.0.1
+  - android-23
+  - build-tools-23.0.2
   - extra-google-m2repository
   - extra-android-m2repository
   - extra-android-support
