@@ -96,7 +96,7 @@ public class DatabaseHelperTest extends AndroidTestCase {
   public void testTransaction() {
     helper.clear(Test.class);
     Random random = new Random();
-    int capacity = 10000;
+    int capacity = 5000;
     helper.beginTransaction();
     for (int i = 0; i < capacity; i++) {
       Test test = new Test();
