@@ -18,7 +18,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 <dependency>
     <groupId>net.redwarp.android.library</groupId>
     <artifactId>lazy-database</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <type>aar</type>
 </dependency>
 ```
@@ -27,7 +27,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 ### For Gradle
 
 ```
-compile 'net.redwarp.android.library:lazy-database:0.2.1'
+compile 'net.redwarp.android.library:lazy-database:0.2.2'
 ```
 
 ## How to?

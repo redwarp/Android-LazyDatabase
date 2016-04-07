@@ -37,7 +37,7 @@ public class DatabaseHelperTest extends AndroidTestCase {
   @Override
   protected void setUp() throws Exception {
     context = new RenamingDelegatingContext(getContext(), "test_");
-    context.deleteDatabase(BaseAdapter.DEFAULT_BASE_NAME);
+    context.deleteDatabase(context.getString(R.string._lazy_database_base_name));
 
     helper = new DatabaseHelper(context);
   }
@@ -96,7 +96,7 @@ public class DatabaseHelperTest extends AndroidTestCase {
   public void testTransaction() {
     helper.clear(Test.class);
     Random random = new Random();
-    int capacity = 10000;
+    int capacity = 5000;
     helper.beginTransaction();
     for (int i = 0; i < capacity; i++) {
       Test test = new Test();

@@ -14,22 +14,20 @@
  * Copyright 2015 Redwarp
  */
 
-package net.redwarp.library.testapplication;
+package net.redwarp.library.database.test;
 
-/**
- * Created by Redwarp on 27/05/2015.
- */
-public class RandomStuff {
+import net.redwarp.library.database.annotation.PrimaryKey;
 
-  public String name;
+public class InvalidClass {
+  public InvalidClass(String string){
 
-  /**
-   * Required empty constructor
-   */
-  public RandomStuff() {
   }
 
-  public RandomStuff(String name){
-    this.name = name;
+  public class InvalidInnerClass{
+    @PrimaryKey long id;
+
+    public InvalidInnerClass(Object osef){
+      // Testing for missing constructor here.
+    }
   }
 }

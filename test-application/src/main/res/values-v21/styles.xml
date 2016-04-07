@@ -15,5 +15,12 @@
   -->
 
 <resources>
-  <string name="_lazy_database_base_name">myBase.db</string>
+
+    <!-- Base application theme. -->
+    <style name="_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
 </resources>

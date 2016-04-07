@@ -18,6 +18,8 @@ package net.redwarp.library.testapplication;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+
 import net.redwarp.library.database.DatabaseHelper;
 
 /**
@@ -25,16 +27,23 @@ import net.redwarp.library.database.DatabaseHelper;
  */
 public class TestApplication extends Application {
 
-  private static DatabaseHelper databaseHelper = null;
+    private static DatabaseHelper databaseHelper = null;
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-    databaseHelper = new DatabaseHelper(this);
-  }
+        databaseHelper = new DatabaseHelper(this);
 
-  public static DatabaseHelper getDatabaseHelper() {
-    return databaseHelper;
-  }
+        if(BuildConfig.DEBUG) {
+            Stetho.initialize(Stetho.newInitializerBuilder(this)
+                    .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                    .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                    .build());
+        }
+    }
+
+    public static DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
+    }
 }

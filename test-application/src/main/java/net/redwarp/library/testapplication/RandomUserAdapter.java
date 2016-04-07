@@ -17,6 +17,7 @@
 package net.redwarp.library.testapplication;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,19 +27,22 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by Redwarp on 27/05/2015.
  */
-public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.ViewHolder> {
+public class RandomUserAdapter extends RecyclerView.Adapter<RandomUserAdapter.ViewHolder> {
 
   private final Context mContext;
-  private List<RandomStuff> mStuffList;
+  private List<RandomUser> mStuffList;
   private ItemCountChangedListener mCountListener = null;
 
-  public RandomStuffAdapter(Context context, List<RandomStuff> stuffList) {
+
+  private OnRandomUserClickedListener mUserClickedListener = null;
+
+  public RandomUserAdapter(Context context, List<RandomUser> stuffList) {
     mContext = context;
 
     if (stuffList != null) {
@@ -48,7 +52,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
     }
   }
 
-  public void addStuff(RandomStuff stuff) {
+  public void addStuff(RandomUser stuff) {
     if (stuff != null) {
       mStuffList.add(stuff);
       notifyItemInserted(mStuffList.size() - 1);
@@ -56,7 +60,7 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
     }
   }
 
-  public void addAllStuff(List<RandomStuff> stuffList) {
+  public void addAllStuff(List<RandomUser> stuffList) {
     if (stuffList != null) {
       int startingPoint = mStuffList.size();
       mStuffList.addAll(stuffList);
@@ -84,13 +88,13 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(mContext).inflate(R.layout.cell_random_stuff, parent, false);
+    View view = LayoutInflater.from(mContext).inflate(R.layout.item_random_stuff, parent, false);
     return new ViewHolder(view);
   }
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    RandomStuff stuff = mStuffList.get(position);
+    RandomUser stuff = mStuffList.get(position);
     holder.textView.setText(stuff.name);
   }
 
@@ -100,19 +104,40 @@ public class RandomStuffAdapter extends RecyclerView.Adapter<RandomStuffAdapter.
   }
 
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
+  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    @InjectView(R.id.text)
+    @Bind(R.id.text)
     TextView textView;
 
     public ViewHolder(View itemView) {
       super(itemView);
-      ButterKnife.inject(this, itemView);
+      ButterKnife.bind(this, itemView);
+      itemView.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(@NonNull final View view) {
+      if (mUserClickedListener != null) {
+        assert mStuffList != null;
+        int position = getLayoutPosition();
+        if (position < mStuffList.size()) {
+          mUserClickedListener.onRandomUserClicked(mStuffList.get(position), view, position);
+        }
+      }
     }
   }
 
-  public static interface ItemCountChangedListener {
+  public void setOnUserClickedListener(OnRandomUserClickedListener userClickedListener) {
+    mUserClickedListener = userClickedListener;
+  }
 
-    public void onItemCountChange(int newCount);
+  public interface ItemCountChangedListener {
+
+    void onItemCountChange(int newCount);
+  }
+
+  public interface OnRandomUserClickedListener {
+
+    void onRandomUserClicked(final RandomUser user, final View view, final int position);
   }
 }
