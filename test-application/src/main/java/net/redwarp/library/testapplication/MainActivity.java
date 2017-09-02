@@ -34,7 +34,7 @@ import net.redwarp.library.testapplication.tools.NameGenerator;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity
     implements RandomUserAdapter.ItemCountChangedListener {
 
   public static final String EXTRA_USER_ID = "net.redwarp.library.testapplication.extra.EXTRA_USER_ID";
-  @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
-  @Bind(R.id.add_button) FloatingActionButton mAddButton;
+  @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+  @BindView(R.id.add_button) FloatingActionButton mAddButton;
 
   private NameGenerator mGenerator;
   private RandomUserAdapter mAdapter;
