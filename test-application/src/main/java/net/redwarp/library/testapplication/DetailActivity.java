@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class DetailActivity extends AppCompatActivity {
 
-  @Bind(R.id.text) TextView mTextView;
+  @BindView(R.id.text) TextView mTextView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

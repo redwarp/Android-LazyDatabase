@@ -3,6 +3,9 @@ A fast way to store POJO in sqlite on an Android device without troubling yourse
 
 [![Build Status](https://travis-ci.org/redwarp/Android-LazyDatabase.svg?branch=develop)](https://travis-ci.org/redwarp/Android-LazyDatabase) [![Download](https://api.bintray.com/packages/redwarp/android/lazy-database/images/download.svg) ](https://bintray.com/redwarp/android/lazy-database/_latestVersion)
 
+# Deprecated
+Google introduced [Room](https://developer.android.com/topic/libraries/architecture/room.html) which does the same thing, but better. I thereby deprecate Android-LazyDatabase, it's not useful anymore. It's still a good tutorial about how to upload artifacts to JCenter though.
+
 ## What is it?
 If you are working on a proof of concept app for Android (you should probably not use it for production in it's current state), and you need to store some good old POJO, this library is there for you.
 As the title says, it's a database for lazy people.
@@ -18,7 +21,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 <dependency>
     <groupId>net.redwarp.android.library</groupId>
     <artifactId>lazy-database</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     <type>aar</type>
 </dependency>
 ```
@@ -27,7 +30,7 @@ Seriously, **don't use it for production**, only for proof of concept or stuff l
 ### For Gradle
 
 ```
-compile 'net.redwarp.android.library:lazy-database:0.2.2'
+compile 'net.redwarp.android.library:lazy-database:0.2.3'
 ```
 
 ## How to?
@@ -136,9 +139,10 @@ public class GoodOldPojo {
 
 ## What's left to do?
 
- * [ ] A shit load
+ * [ ] ~~A shit load~~
  * [x] Clear should also deleted chain elements
- * [ ] Relations of type one to many
- * [ ] Benchmarking (I mean, how fast is it compared to an hand written database)
- * [ ] Search
- * [ ] Unique keyword, etc...
+ * [ ] ~~Relations of type one to many~~
+ * [ ] ~~Benchmarking (I mean, how fast is it compared to an hand written database)~~
+ * [ ] ~~Search~~
+ * [ ] ~~Unique keyword, etc...~~
+ * [x] Nothing, it's deprecated
